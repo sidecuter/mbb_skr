@@ -1,7 +1,13 @@
 obj-m += mbb_skr.o
 
-all:
-	make -C $(KERNEL_SRC) M=$(PWD) modules
+KVER ?= $(shell uname -r)
+KDIR ?= /lib/modules/$(KVER)/build
+
+default:
+	$(MAKE) -C $(KDIR) M=$(CURDIR) modules
 
 clean:
-	make -C $(KERNEL_SRC) M=$(PWD) clean
+	$(MAKE) -C $(KDIR) M=$(CURDIR) clean
+
+install:
+	$(MAKE) -C $(KDIR) M=$(CURDIR) modules_install
